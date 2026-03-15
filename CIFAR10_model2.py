@@ -5,7 +5,7 @@ from torch import nn
 
 # NOTE: Because the number of output channels from conv2 increases from 16 to 32, 
 # the input features to the first fully connected layer (fc1) also need to be updated from 16*5*5 to 32*5*5 to match the new output dimensions of conv2.
-class LeNet5Color(nn.Module):
+class LeNet5Variant2(nn.Module):
     def __init__(self):
         super().__init__()
 
@@ -32,7 +32,7 @@ class LeNet5Color(nn.Module):
         self.fc2 = nn.Linear(in_features=120, out_features=84)
         self.relu4 = nn.ReLU()
         self.dropout2 = nn.Dropout(p=0.5) # Retained from Variant 1
-        
+
         self.fc3 = nn.Linear(in_features=84, out_features=10)
 
         # Apply custom weight initialization
@@ -42,8 +42,10 @@ class LeNet5Color(nn.Module):
         x = self.pool1(self.relu1(self.conv1(x)))
         x = self.pool2(self.relu2(self.conv2(x)))
         x = self.flatten(x)
-        x = self.relu3(self.fc1(x))
-        x = self.relu4(self.fc2(x))
+        
+        # Applying dropout after activation functions
+        x = self.dropout1(self.relu3(self.fc1(x)))
+        x = self.dropout2(self.relu4(self.fc2(x)))
         x = self.fc3(x)
 
         # Returning raw logits, as CrossEntropyLoss will apply softmax internally

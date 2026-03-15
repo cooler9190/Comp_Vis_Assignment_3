@@ -51,21 +51,21 @@ validation_dataloader = DataLoader(validation_data, batch_size=32, shuffle=False
 test_dataloader = DataLoader(test_data, batch_size=32, shuffle=False)
 
 
-# Display a batch of training data
+def display_batch_of_images(dataloader, labels_map):
+    # Display a batch of training data
+    train_features, train_labels = next(iter(dataloader))
 
-train_features, train_labels = next(iter(train_dataloader))
+    # Expecting a batch of 32 images, each with 3 color channels (RGB) and dimensions 32x32 pixels, and a batch of 32 labels corresponding to the images.
+    print(f"Feature batch shape: {train_features.size()}")
+    print(f"Labels batch shape: {train_labels.size()}")
 
-# Expecting a batch of 32 images, each with 3 color channels (RGB) and dimensions 32x32 pixels, and a batch of 32 labels corresponding to the images.
-print(f"Feature batch shape: {train_features.size()}")
-print(f"Labels batch shape: {train_labels.size()}")
+    # Display the first image in the batch and its corresponding label
+    # Pytorch tensors are in the format (channels, height, width), but matplotlib expects images in the format (height, width, channels)
+    # so we permute the dimensions of the image tensor to match the expected format for displaying with matplotlib.
+    img = train_features[0].permute(1, 2, 0)
+    label_idx = train_labels[0].item()
 
-# Display the first image in the batch and its corresponding label
-# Pytorch tensors are in the format (channels, height, width), but matplotlib expects images in the format (height, width, channels)
-# so we permute the dimensions of the image tensor to match the expected format for displaying with matplotlib.
-img = train_features[0].permute(1, 2, 0)
-label_idx = train_labels[0].item()
-
-plt.imshow(img)
-plt.title(f"Label: {labels_map[label_idx]}")
-plt.axis("off")
-plt.show()
+    plt.imshow(img)
+    plt.title(f"Label: {labels_map[label_idx]}")
+    plt.axis("off")
+    plt.show()
