@@ -1,0 +1,94 @@
+Using cpu device
+Model architecture: LeNet5Color(
+  (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
+  (relu1): ReLU()
+  (pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+  (relu2): ReLU()
+  (pool2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=400, out_features=120, bias=True)
+  (relu3): ReLU()
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (relu4): ReLU()
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+Training model saving history to history_baseline.json
+Starting training and validation...
+Epoch 1/15
+-------------------------------
+Train - Loss: 1.642618, Accuracy: 39.9%
+Validation - Loss: 1.410576, Accuracy: 49.3%
+
+Epoch 2/15
+-------------------------------
+Train - Loss: 1.350490, Accuracy: 51.8%
+Validation - Loss: 1.301149, Accuracy: 53.9%
+
+Epoch 3/15
+-------------------------------
+Train - Loss: 1.229320, Accuracy: 56.2%
+Validation - Loss: 1.249467, Accuracy: 55.8%
+
+Epoch 4/15
+-------------------------------
+Train - Loss: 1.155060, Accuracy: 59.2%
+Validation - Loss: 1.234228, Accuracy: 56.1%
+
+Epoch 5/15
+-------------------------------
+Train - Loss: 1.083634, Accuracy: 61.6%
+Validation - Loss: 1.158596, Accuracy: 59.2%
+
+Epoch 6/15
+-------------------------------
+Train - Loss: 1.033465, Accuracy: 63.6%
+Validation - Loss: 1.184017, Accuracy: 58.4%
+
+Epoch 7/15
+-------------------------------
+Train - Loss: 0.986485, Accuracy: 65.1%
+Validation - Loss: 1.156277, Accuracy: 59.3%
+
+Epoch 8/15
+-------------------------------
+Train - Loss: 0.940826, Accuracy: 66.7%
+Validation - Loss: 1.122707, Accuracy: 60.6%
+
+Epoch 9/15
+-------------------------------
+Train - Loss: 0.906254, Accuracy: 68.0%
+Validation - Loss: 1.213978, Accuracy: 58.4%
+
+Epoch 10/15
+-------------------------------
+Train - Loss: 0.858270, Accuracy: 69.8%
+Validation - Loss: 1.298252, Accuracy: 56.6%
+
+Epoch 11/15
+-------------------------------
+Train - Loss: 0.824563, Accuracy: 70.7%
+Validation - Loss: 1.187534, Accuracy: 60.2%
+
+Epoch 12/15
+-------------------------------
+Train - Loss: 0.787524, Accuracy: 72.0%
+Validation - Loss: 1.178044, Accuracy: 61.0%
+
+Epoch 13/15
+-------------------------------
+Train - Loss: 0.751242, Accuracy: 73.4%
+Validation - Loss: 1.235934, Accuracy: 59.8%
+
+Epoch 14/15
+-------------------------------
+Train - Loss: 0.721471, Accuracy: 74.1%
+Validation - Loss: 1.249877, Accuracy: 60.0%
+
+Epoch 15/15
+-------------------------------
+Train - Loss: 0.696815, Accuracy: 75.3%
+Validation - Loss: 1.268860, Accuracy: 60.3%
+
+Training complete. History saved to history_baseline.json
+Model weights saved to history_baseline.pth

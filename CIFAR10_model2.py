@@ -27,11 +27,18 @@ class LeNet5Variant2(nn.Module):
         # Adjusted input features to match the new output dimensions of conv2 (32 channels * 5 height * 5 width = 800 features)
         self.fc1 = nn.Linear(in_features=32*5*5, out_features=120)
         self.relu3 = nn.ReLU()
-        self.dropout1 = nn.Dropout(p=0.5) # Retained from Variant 1
+        
+        # First attempt: Adding Droput layer with a 50% probability - good balance between regularization and model capacity, leading to improved performance on the validation set compared to the baseline.
+        # Second attempt: Adding Droput layer with a 25% probability - too low as it led to the model overfitting.
+        # Third attempt: Adding Droput layer with a 40% probability - 2nd best result so far with peak validation acc of 65.9%(Epoch 13) and lowest validation loss of 0.99(Epoch 11), with a moderate gap between training and validation in Epoch 15
+        # Fourth attempt: Adding Dropout layer with a 60% probability - validation acc sharply drops from Epoch 13 to Epoch 15
+        # Fifth attempt: Adding Dropout layer with a 55% probability - slightly worse than 50%
+        # Sixth attempt Adding Dropout layer with a 45% probability - best result overall, outperforming 40% with better results at Epoch 15 and much less gap between training and validation, indicating better generalization to unseen data.
+        self.dropout1 = nn.Dropout(p=0.45)
 
         self.fc2 = nn.Linear(in_features=120, out_features=84)
         self.relu4 = nn.ReLU()
-        self.dropout2 = nn.Dropout(p=0.5) # Retained from Variant 1
+        self.dropout2 = nn.Dropout(p=0.45)
 
         self.fc3 = nn.Linear(in_features=84, out_features=10)
 

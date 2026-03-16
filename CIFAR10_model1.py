@@ -26,14 +26,15 @@ class LeNet5Variant1(nn.Module):
         self.fc1 = nn.Linear(in_features=16*5*5, out_features=120)
         self.relu3 = nn.ReLU()
 
-        # Adding Droput layer with a 50% probability
-        self.dropout1 = nn.Dropout(p=0.5)
+        # First attempt: Adding Droput layer with a 50% probability - too much as it led to the model underfitting
+        # Second attempt: Adding Droput layer with a 25% probability - good balance between regularization and model capacity, leading to improved performance on the validation set compared to the baseline and the 50% dropout variant.
+        self.dropout1 = nn.Dropout(p=0.25)
 
         self.fc2 = nn.Linear(in_features=120, out_features=84)
         self.relu4 = nn.ReLU()
 
         # Second Dropout layer
-        self.dropout2 = nn.Dropout(p=0.5)
+        self.dropout2 = nn.Dropout(p=0.25)
 
         self.fc3 = nn.Linear(in_features=84, out_features=10)
 
