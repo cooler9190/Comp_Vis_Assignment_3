@@ -4,10 +4,10 @@ import json
 from torch import nn
 
 # Import dataloaders for CIFAR-10 dataset
-# from load_CIFAR10 import train_dataloader, validation_dataloader
+from load_CIFAR10 import train_dataloader, validation_dataloader
 
 # Import dataloaders for CIFAR-100 dataset
-from load_CIFAR100 import train_dataloader, validation_dataloader
+# from load_CIFAR100 import train_dataloader, validation_dataloader
 
 # The model is deteriorating if no (significant) improvement is found,
 # compared to the best (lowest) validation loss at that point.

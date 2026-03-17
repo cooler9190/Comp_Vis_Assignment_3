@@ -1,4 +1,6 @@
-﻿import torch
+﻿# https://docs.pytorch.org/tutorials/beginner/saving_loading_models.html
+
+import torch
 from torch import nn
 
 # We increase the number of kernels in the convolutional layers of the LeNet-5 architecture.
@@ -44,15 +46,19 @@ class LeNet5VariantPretrained(nn.Module):
         self._initialize_weights()
 
         # Define path to weights
-        pretrained_weights_path = "history_variant_cifar100.pth"
+        pretrained_weights_path = "variant_cifar100_results_and_weights/history_variant_cifar100.pth"
 
         # Load the state dictionary from the file
         pretrained_dict = torch.load(pretrained_weights_path, weights_only=True)
 
-        # Filter out the wights and biases of the output layer (fc3) since the number of output features in the pretrained model (20 for CIFAR-100) is different from the current model (10 for CIFAR-10)
-        filtered_dict = {k: v for k, v in pretrained_dict.items() if not k.startswith("fc3")}
+        # Filter out the wights and biases of the loaded model's output layer (fc3).
+        # Because the number of output features in the pretrained model (20 for CIFAR-100) is different from the current model (10 for CIFAR-10)
+        filtered_dict = {}
+        for k, v in pretrained_dict.items():
+            if not k.startswith("fc3"):
+                filtered_dict[k] = v
 
-        # Load remaining wights
+        # Load remaining weights
         self.load_state_dict(filtered_dict, strict=False)
         
     def forward(self, x):

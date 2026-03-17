@@ -1,0 +1,189 @@
+﻿Using cuda device
+Model architecture: LeNet5VariantPretrained(
+  (conv1): Conv2d(3, 16, kernel_size=(5, 5), stride=(1, 1))
+  (relu1): ReLU()
+  (pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+  (relu2): ReLU()
+  (pool2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=800, out_features=120, bias=True)
+  (relu3): ReLU()
+  (dropout1): Dropout(p=0.45, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (relu4): ReLU()
+  (dropout2): Dropout(p=0.45, inplace=False)
+  (fc3): Linear(in_features=84, out_features=10, bias=True)
+)
+Training model saving history to history_variant_pretrained.json
+Starting training and validation...
+Epoch 1/50
+-------------------------------
+Train - Loss: 1.854119, Accuracy: 31.1%
+Validation - Loss: 1.449570, Accuracy: 47.5%
+
+Epoch 2/50
+-------------------------------
+Train - Loss: 1.544932, Accuracy: 43.5%
+Validation - Loss: 1.369682, Accuracy: 50.7%
+
+Epoch 3/50
+-------------------------------
+Train - Loss: 1.434059, Accuracy: 48.3%
+Validation - Loss: 1.277643, Accuracy: 53.8%
+
+Epoch 4/50
+-------------------------------
+Train - Loss: 1.354783, Accuracy: 51.6%
+Validation - Loss: 1.224871, Accuracy: 56.0%
+
+Epoch 5/50
+-------------------------------
+Train - Loss: 1.289158, Accuracy: 54.6%
+Validation - Loss: 1.169217, Accuracy: 58.1%
+
+Epoch 6/50
+-------------------------------
+Train - Loss: 1.246135, Accuracy: 56.3%
+Validation - Loss: 1.149414, Accuracy: 59.3%
+
+Epoch 7/50
+-------------------------------
+Train - Loss: 1.194466, Accuracy: 58.0%
+Validation - Loss: 1.117245, Accuracy: 60.4%
+
+Epoch 8/50
+-------------------------------
+Train - Loss: 1.161602, Accuracy: 59.2%
+Validation - Loss: 1.096323, Accuracy: 60.7%
+
+Epoch 9/50
+-------------------------------
+Train - Loss: 1.126994, Accuracy: 60.6%
+Validation - Loss: 1.074333, Accuracy: 61.8%
+
+Epoch 10/50
+-------------------------------
+Train - Loss: 1.102962, Accuracy: 61.7%
+Validation - Loss: 1.063559, Accuracy: 62.4%
+
+Epoch 11/50
+-------------------------------
+Train - Loss: 1.078452, Accuracy: 62.4%
+Validation - Loss: 1.059002, Accuracy: 62.2%
+
+Epoch 12/50
+-------------------------------
+Train - Loss: 1.051648, Accuracy: 63.6%
+Validation - Loss: 1.044792, Accuracy: 63.0%
+
+Epoch 13/50
+-------------------------------
+Train - Loss: 1.020351, Accuracy: 64.6%
+Validation - Loss: 1.028963, Accuracy: 63.6%
+
+Epoch 14/50
+-------------------------------
+Train - Loss: 1.011771, Accuracy: 64.9%
+Validation - Loss: 1.026601, Accuracy: 63.6%
+
+Epoch 15/50
+-------------------------------
+Train - Loss: 0.987542, Accuracy: 65.2%
+Validation - Loss: 1.046258, Accuracy: 63.6%
+
+Epoch 16/50
+-------------------------------
+Train - Loss: 0.966141, Accuracy: 66.3%
+Validation - Loss: 1.018130, Accuracy: 64.8%
+
+Epoch 17/50
+-------------------------------
+Train - Loss: 0.955489, Accuracy: 67.1%
+Validation - Loss: 1.045375, Accuracy: 63.7%
+
+Epoch 18/50
+-------------------------------
+Train - Loss: 0.937223, Accuracy: 67.5%
+Validation - Loss: 1.019551, Accuracy: 64.9%
+
+Epoch 19/50
+-------------------------------
+Train - Loss: 0.917353, Accuracy: 67.9%
+Validation - Loss: 1.023124, Accuracy: 64.9%
+
+Epoch 20/50
+-------------------------------
+Train - Loss: 0.903925, Accuracy: 68.5%
+Validation - Loss: 0.996989, Accuracy: 65.2%
+
+Epoch 21/50
+-------------------------------
+Train - Loss: 0.893992, Accuracy: 68.9%
+Validation - Loss: 1.008257, Accuracy: 65.5%
+
+Epoch 22/50
+-------------------------------
+Train - Loss: 0.871497, Accuracy: 69.6%
+Validation - Loss: 1.011502, Accuracy: 65.0%
+
+Epoch 23/50
+-------------------------------
+Train - Loss: 0.862148, Accuracy: 69.9%
+Validation - Loss: 1.022991, Accuracy: 65.2%
+
+Epoch 24/50
+-------------------------------
+Train - Loss: 0.846880, Accuracy: 70.3%
+Validation - Loss: 1.027818, Accuracy: 65.2%
+
+Epoch 25/50
+-------------------------------
+Train - Loss: 0.837717, Accuracy: 70.7%
+Validation - Loss: 0.996504, Accuracy: 65.8%
+
+Epoch 26/50
+-------------------------------
+Train - Loss: 0.829130, Accuracy: 71.2%
+Validation - Loss: 1.013731, Accuracy: 66.1%
+
+Epoch 27/50
+-------------------------------
+Train - Loss: 0.813099, Accuracy: 71.5%
+Validation - Loss: 1.009576, Accuracy: 66.0%
+
+Epoch 28/50
+-------------------------------
+Train - Loss: 0.803006, Accuracy: 72.2%
+Validation - Loss: 0.996196, Accuracy: 66.2%
+
+Epoch 29/50
+-------------------------------
+Train - Loss: 0.793229, Accuracy: 72.3%
+Validation - Loss: 1.016043, Accuracy: 65.8%
+
+Epoch 30/50
+-------------------------------
+Train - Loss: 0.785327, Accuracy: 72.6%
+Validation - Loss: 1.051531, Accuracy: 65.7%
+
+Epoch 31/50
+-------------------------------
+Train - Loss: 0.768677, Accuracy: 73.1%
+Validation - Loss: 1.033887, Accuracy: 65.8%
+
+Epoch 32/50
+-------------------------------
+Train - Loss: 0.772570, Accuracy: 72.8%
+Validation - Loss: 1.009508, Accuracy: 66.6%
+
+Epoch 33/50
+-------------------------------
+Train - Loss: 0.763127, Accuracy: 73.3%
+Validation - Loss: 1.021817, Accuracy: 66.4%
+
+Early stopping, saved epoch is: 28
+Training complete. History saved to history_variant_pretrained.json
+Model weights saved to history_variant_pretrained.pth
+
+Process finished with exit code 0
