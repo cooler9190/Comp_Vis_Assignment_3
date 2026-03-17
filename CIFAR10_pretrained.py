@@ -1,4 +1,5 @@
-﻿from torch import nn
+﻿import torch
+from torch import nn
 
 # We increase the number of kernels in the convolutional layers of the LeNet-5 architecture.
 # This allows the model to learn more complex and abstract features from the input images, which can improve its performance on the CIFAR-10 dataset.
@@ -42,6 +43,18 @@ class LeNet5VariantPretrained(nn.Module):
         # Apply custom weight initialization
         self._initialize_weights()
 
+        # Define path to weights
+        pretrained_weights_path = "history_variant_cifar100.pth"
+
+        # Load the state dictionary from the file
+        pretrained_dict = torch.load(pretrained_weights_path, weights_only=True)
+
+        # Filter out the wights and biases of the output layer (fc3) since the number of output features in the pretrained model (20 for CIFAR-100) is different from the current model (10 for CIFAR-10)
+        filtered_dict = {k: v for k, v in pretrained_dict.items() if not k.startswith("fc3")}
+
+        # Load remaining wights
+        self.load_state_dict(filtered_dict, strict=False)
+        
     def forward(self, x):
         x = self.pool1(self.relu1(self.conv1(x)))
         x = self.pool2(self.relu2(self.conv2(x)))
