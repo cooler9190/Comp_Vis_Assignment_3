@@ -1,4 +1,4 @@
-Using cpu device
+Using cuda device
 Model architecture: LeNet5Color(
   (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
   (relu1): ReLU()
@@ -15,80 +15,88 @@ Model architecture: LeNet5Color(
 )
 Training model saving history to history_baseline.json
 Starting training and validation...
-Epoch 1/15
+Epoch 1/50
 -------------------------------
-Train - Loss: 1.642618, Accuracy: 39.9%
-Validation - Loss: 1.410576, Accuracy: 49.3%
+Train - Loss: 1.615301, Accuracy: 41.8%
+Validation - Loss: 1.442016, Accuracy: 48.9%
 
-Epoch 2/15
+Epoch 2/50
 -------------------------------
-Train - Loss: 1.350490, Accuracy: 51.8%
-Validation - Loss: 1.301149, Accuracy: 53.9%
+Train - Loss: 1.345810, Accuracy: 52.0%
+Validation - Loss: 1.261702, Accuracy: 54.9%
 
-Epoch 3/15
+Epoch 3/50
 -------------------------------
-Train - Loss: 1.229320, Accuracy: 56.2%
-Validation - Loss: 1.249467, Accuracy: 55.8%
+Train - Loss: 1.233891, Accuracy: 56.3%
+Validation - Loss: 1.230697, Accuracy: 56.1%
 
-Epoch 4/15
+Epoch 4/50
 -------------------------------
-Train - Loss: 1.155060, Accuracy: 59.2%
-Validation - Loss: 1.234228, Accuracy: 56.1%
+Train - Loss: 1.159767, Accuracy: 59.2%
+Validation - Loss: 1.230304, Accuracy: 56.8%
 
-Epoch 5/15
+Epoch 5/50
 -------------------------------
-Train - Loss: 1.083634, Accuracy: 61.6%
-Validation - Loss: 1.158596, Accuracy: 59.2%
+Train - Loss: 1.089371, Accuracy: 61.6%
+Validation - Loss: 1.160510, Accuracy: 59.4%
 
-Epoch 6/15
+Epoch 6/50
 -------------------------------
-Train - Loss: 1.033465, Accuracy: 63.6%
-Validation - Loss: 1.184017, Accuracy: 58.4%
+Train - Loss: 1.043736, Accuracy: 63.2%
+Validation - Loss: 1.198507, Accuracy: 57.4%
 
-Epoch 7/15
+Epoch 7/50
 -------------------------------
-Train - Loss: 0.986485, Accuracy: 65.1%
-Validation - Loss: 1.156277, Accuracy: 59.3%
+Train - Loss: 0.988172, Accuracy: 65.3%
+Validation - Loss: 1.155538, Accuracy: 59.9%
 
-Epoch 8/15
+Epoch 8/50
 -------------------------------
-Train - Loss: 0.940826, Accuracy: 66.7%
-Validation - Loss: 1.122707, Accuracy: 60.6%
+Train - Loss: 0.943683, Accuracy: 66.8%
+Validation - Loss: 1.149732, Accuracy: 59.6%
 
-Epoch 9/15
+Epoch 9/50
 -------------------------------
-Train - Loss: 0.906254, Accuracy: 68.0%
-Validation - Loss: 1.213978, Accuracy: 58.4%
+Train - Loss: 0.901413, Accuracy: 68.2%
+Validation - Loss: 1.202343, Accuracy: 59.6%
 
-Epoch 10/15
+Epoch 10/50
 -------------------------------
-Train - Loss: 0.858270, Accuracy: 69.8%
-Validation - Loss: 1.298252, Accuracy: 56.6%
+Train - Loss: 0.860917, Accuracy: 69.7%
+Validation - Loss: 1.232425, Accuracy: 59.4%
 
-Epoch 11/15
+Epoch 11/50
 -------------------------------
-Train - Loss: 0.824563, Accuracy: 70.7%
-Validation - Loss: 1.187534, Accuracy: 60.2%
+Train - Loss: 0.825751, Accuracy: 71.0%
+Validation - Loss: 1.147705, Accuracy: 61.5%
 
-Epoch 12/15
+Epoch 12/50
 -------------------------------
-Train - Loss: 0.787524, Accuracy: 72.0%
-Validation - Loss: 1.178044, Accuracy: 61.0%
+Train - Loss: 0.788797, Accuracy: 72.2%
+Validation - Loss: 1.214088, Accuracy: 60.4%
 
-Epoch 13/15
+Epoch 13/50
 -------------------------------
-Train - Loss: 0.751242, Accuracy: 73.4%
-Validation - Loss: 1.235934, Accuracy: 59.8%
+Train - Loss: 0.757666, Accuracy: 73.4%
+Validation - Loss: 1.244426, Accuracy: 60.0%
 
-Epoch 14/15
+Epoch 14/50
 -------------------------------
-Train - Loss: 0.721471, Accuracy: 74.1%
-Validation - Loss: 1.249877, Accuracy: 60.0%
+Train - Loss: 0.725640, Accuracy: 74.2%
+Validation - Loss: 1.240755, Accuracy: 60.0%
 
-Epoch 15/15
+Epoch 15/50
 -------------------------------
-Train - Loss: 0.696815, Accuracy: 75.3%
-Validation - Loss: 1.268860, Accuracy: 60.3%
+Train - Loss: 0.696291, Accuracy: 75.5%
+Validation - Loss: 1.256026, Accuracy: 60.0%
 
+Epoch 16/50
+-------------------------------
+Train - Loss: 0.664175, Accuracy: 76.3%
+Validation - Loss: 1.292623, Accuracy: 60.2%
+
+Early stopping, saved epoch is: 11
 Training complete. History saved to history_baseline.json
 Model weights saved to history_baseline.pth
+
+Process finished with exit code 0

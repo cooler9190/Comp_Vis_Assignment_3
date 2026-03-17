@@ -7,16 +7,22 @@ from torch import nn
 # Import dataloaders
 from load_CIFAR10 import train_dataloader, validation_dataloader
 
-
-def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, epochs=15):
-    # Dictionary to store training and validation metrics for each epoch
+def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50):
+    # Dictionary to store training and validation metrics for each epoch, including the deteriorated epoch metrics.
+    # Therefore, the 'best' epoch count is 'length - patience'.
     history = {
         'train_loss': [], 'train_accuracy': [],
         'validation_loss': [], 'validation_accuracy': []
     }
-    
-    for epoch in range(epochs):
-        print(f"Epoch {epoch+1}/{epochs}\n-------------------------------")
+
+    # Early Stopping condition: stop when validation loss hasn't improved for 'patient' epochs.
+    patience = 5
+    deterioration_counter = 0
+    lowest_validation_loss = float('inf')
+
+    # Loop for max_epochs long
+    for epoch in range(max_epochs):
+        print(f"Epoch {epoch+1}/{max_epochs}\n-------------------------------")
         
         # Training phase
         model.train()  # Set model to training mode
@@ -64,8 +70,21 @@ def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, l
         history['validation_loss'].append(validation_loss / validation_length) # Average validation loss for the epoch
         history['validation_accuracy'].append(validation_accuracy / validation_length) # Validation accuracy for the epoch
 
+        # Printing training and validation data.
         print(f"Train - Loss: {history['train_loss'][-1]:>4f}, Accuracy: {(100*history['train_accuracy'][-1]):>0.1f}%")
         print(f"Validation - Loss: {history['validation_loss'][-1]:>4f}, Accuracy: {(100*history['validation_accuracy'][-1]):>0.1f}%\n")
+
+        # Update variables required early stopping.
+        if validation_loss < lowest_validation_loss: # Model is improving, so update weight save.
+            lowest_validation_loss = validation_loss # New lower (better) validation loss.
+            deterioration_counter = 0 # Reset deterioration.
+            torch.save(model.state_dict(), weight_filename) # Override saved trained model weights
+        else: deterioration_counter += 1 # Model getting worse (or plateauing).
+
+        # Early Stopping, when model hasn't improved for 'patience' long
+        if deterioration_counter >= patience:
+            print(f"Early stopping, saved epoch is: {epoch - deterioration_counter + 1}")
+            break
 
     return history
 
@@ -89,15 +108,12 @@ def run_and_save_results(ModelToTrain, model_filename):
 
     # Run the training and validation loop
     print("Starting training and validation...")
-    history = train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, epochs=15)
+    weight_filename = model_filename.replace(".json", ".pth")
+    history = train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50)
 
     # Save the training history to a JSON file
     with open(model_filename, 'w') as f:
         json.dump(history, f, indent=4)
-    
-    # Save trained model weights (optional)
-    weight_filename = model_filename.replace(".json", ".pth")
-    torch.save(model.state_dict(), weight_filename)
     
     print(f"Training complete. History saved to {model_filename}")
     print(f"Model weights saved to {weight_filename}")

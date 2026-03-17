@@ -1,4 +1,4 @@
-Using cpu device
+Using cuda device
 Model architecture: LeNet5Variant1(
   (conv1): Conv2d(3, 6, kernel_size=(5, 5), stride=(1, 1))
   (relu1): ReLU()
@@ -17,81 +17,88 @@ Model architecture: LeNet5Variant1(
 )
 Training model saving history to history_variant1.json
 Starting training and validation...
-Epoch 1/15
+Epoch 1/50
 -------------------------------
-Train - Loss: 1.762491, Accuracy: 34.1%
-Validation - Loss: 1.515787, Accuracy: 44.8%
+Train - Loss: 1.770460, Accuracy: 34.2%
+Validation - Loss: 1.500026, Accuracy: 44.9%
 
-Epoch 2/15
+Epoch 2/50
 -------------------------------
-Train - Loss: 1.492899, Accuracy: 45.5%
-Validation - Loss: 1.447399, Accuracy: 47.5%
+Train - Loss: 1.510295, Accuracy: 45.3%
+Validation - Loss: 1.396595, Accuracy: 48.5%
 
-Epoch 3/15
+Epoch 3/50
 -------------------------------
-Train - Loss: 1.376231, Accuracy: 50.2%
-Validation - Loss: 1.322406, Accuracy: 52.3%
+Train - Loss: 1.406254, Accuracy: 48.9%
+Validation - Loss: 1.341122, Accuracy: 51.5%
 
-Epoch 4/15
+Epoch 4/50
 -------------------------------
-Train - Loss: 1.302540, Accuracy: 53.4%
-Validation - Loss: 1.261788, Accuracy: 55.1%
+Train - Loss: 1.331581, Accuracy: 52.1%
+Validation - Loss: 1.309126, Accuracy: 52.3%
 
-Epoch 5/15
+Epoch 5/50
 -------------------------------
-Train - Loss: 1.238054, Accuracy: 56.1%
-Validation - Loss: 1.217631, Accuracy: 56.7%
+Train - Loss: 1.277148, Accuracy: 54.4%
+Validation - Loss: 1.241638, Accuracy: 55.4%
 
-Epoch 6/15
+Epoch 6/50
 -------------------------------
-Train - Loss: 1.192365, Accuracy: 57.8%
-Validation - Loss: 1.192065, Accuracy: 57.6%
+Train - Loss: 1.237445, Accuracy: 55.5%
+Validation - Loss: 1.223976, Accuracy: 55.7%
 
-Epoch 7/15
+Epoch 7/50
 -------------------------------
-Train - Loss: 1.148618, Accuracy: 59.3%
-Validation - Loss: 1.179575, Accuracy: 58.7%
+Train - Loss: 1.193983, Accuracy: 57.3%
+Validation - Loss: 1.209585, Accuracy: 56.4%
 
-Epoch 8/15
+Epoch 8/50
 -------------------------------
-Train - Loss: 1.120193, Accuracy: 60.3%
-Validation - Loss: 1.179891, Accuracy: 58.5%
+Train - Loss: 1.167499, Accuracy: 58.4%
+Validation - Loss: 1.217199, Accuracy: 56.0%
 
-Epoch 9/15
+Epoch 9/50
 -------------------------------
-Train - Loss: 1.085629, Accuracy: 61.4%
-Validation - Loss: 1.159097, Accuracy: 59.2%
+Train - Loss: 1.139590, Accuracy: 59.4%
+Validation - Loss: 1.212894, Accuracy: 56.5%
 
-Epoch 10/15
+Epoch 10/50
 -------------------------------
-Train - Loss: 1.063567, Accuracy: 62.4%
-Validation - Loss: 1.160054, Accuracy: 60.1%
+Train - Loss: 1.114881, Accuracy: 60.3%
+Validation - Loss: 1.168999, Accuracy: 58.0%
 
-Epoch 11/15
+Epoch 11/50
 -------------------------------
-Train - Loss: 1.034440, Accuracy: 63.4%
-Validation - Loss: 1.135478, Accuracy: 60.1%
+Train - Loss: 1.097444, Accuracy: 60.6%
+Validation - Loss: 1.160493, Accuracy: 58.6%
 
-Epoch 12/15
+Epoch 12/50
 -------------------------------
-Train - Loss: 1.014516, Accuracy: 64.0%
-Validation - Loss: 1.145285, Accuracy: 60.1%
+Train - Loss: 1.073915, Accuracy: 61.8%
+Validation - Loss: 1.182888, Accuracy: 58.4%
 
-Epoch 13/15
+Epoch 13/50
 -------------------------------
-Train - Loss: 1.000669, Accuracy: 64.3%
-Validation - Loss: 1.115578, Accuracy: 61.3%
+Train - Loss: 1.052719, Accuracy: 62.5%
+Validation - Loss: 1.164320, Accuracy: 58.5%
 
-Epoch 14/15
+Epoch 14/50
 -------------------------------
-Train - Loss: 0.974973, Accuracy: 65.1%
-Validation - Loss: 1.178948, Accuracy: 58.4%
+Train - Loss: 1.030722, Accuracy: 63.2%
+Validation - Loss: 1.164660, Accuracy: 58.6%
 
-Epoch 15/15
+Epoch 15/50
 -------------------------------
-Train - Loss: 0.952602, Accuracy: 66.1%
-Validation - Loss: 1.135017, Accuracy: 61.0%
+Train - Loss: 1.019651, Accuracy: 63.5%
+Validation - Loss: 1.165551, Accuracy: 58.9%
 
+Epoch 16/50
+-------------------------------
+Train - Loss: 0.997544, Accuracy: 64.4%
+Validation - Loss: 1.176714, Accuracy: 58.5%
+
+Early stopping, saved epoch is: 11
 Training complete. History saved to history_variant1.json
 Model weights saved to history_variant1.pth
-PS C:\Users\Altai\Documents\GitHub\Comp_Vis_Assignment_3> 
+
+Process finished with exit code 0

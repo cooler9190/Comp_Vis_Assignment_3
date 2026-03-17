@@ -34,11 +34,12 @@ class LeNet5Variant2(nn.Module):
         # Fourth attempt: Adding Dropout layer with a 60% probability - validation acc sharply drops from Epoch 13 to Epoch 15
         # Fifth attempt: Adding Dropout layer with a 55% probability - slightly worse than 50%
         # Sixth attempt Adding Dropout layer with a 45% probability - best result overall, outperforming 40% with better results at Epoch 15 and much less gap between training and validation, indicating better generalization to unseen data.
-        self.dropout1 = nn.Dropout(p=0.45)
+        dropout_probability = 0.45
+        self.dropout1 = nn.Dropout(p=dropout_probability)
 
         self.fc2 = nn.Linear(in_features=120, out_features=84)
         self.relu4 = nn.ReLU()
-        self.dropout2 = nn.Dropout(p=0.45)
+        self.dropout2 = nn.Dropout(p=dropout_probability)
 
         self.fc3 = nn.Linear(in_features=84, out_features=10)
 
