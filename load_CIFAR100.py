@@ -25,7 +25,6 @@ test_data = datasets.CIFAR100(
 # Extract the fine labels (specific classes) from the CIFAR-100 dataset, which contains 100 classes grouped into 20 superclasses.
 # PyTorch stores them alphabetically in the .classes attribute
 fine_labels_map = full_training_data.classes
-print(fine_labels_map)
 
 # Group the final labels by their 20 coarse superclasses
 coarse_mapping = {

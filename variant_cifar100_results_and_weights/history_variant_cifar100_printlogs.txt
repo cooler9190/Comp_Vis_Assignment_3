@@ -1,0 +1,119 @@
+﻿Using cuda device
+Model architecture: Cifar100(
+  (conv1): Conv2d(3, 16, kernel_size=(5, 5), stride=(1, 1))
+  (relu1): ReLU()
+  (pool1): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (conv2): Conv2d(16, 32, kernel_size=(5, 5), stride=(1, 1))
+  (relu2): ReLU()
+  (pool2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (fc1): Linear(in_features=800, out_features=120, bias=True)
+  (relu3): ReLU()
+  (dropout1): Dropout(p=0.45, inplace=False)
+  (fc2): Linear(in_features=120, out_features=84, bias=True)
+  (relu4): ReLU()
+  (dropout2): Dropout(p=0.45, inplace=False)
+  (fc3): Linear(in_features=84, out_features=20, bias=True)
+)
+Training model saving history to history_variant_cifar100.json
+Starting training and validation...
+Epoch 1/50
+-------------------------------
+Train - Loss: 2.721600, Accuracy: 15.5%
+Validation - Loss: 2.466349, Accuracy: 23.3%
+
+Epoch 2/50
+-------------------------------
+Train - Loss: 2.479681, Accuracy: 23.4%
+Validation - Loss: 2.283190, Accuracy: 30.4%
+
+Epoch 3/50
+-------------------------------
+Train - Loss: 2.351011, Accuracy: 28.0%
+Validation - Loss: 2.202223, Accuracy: 31.8%
+
+Epoch 4/50
+-------------------------------
+Train - Loss: 2.268893, Accuracy: 30.2%
+Validation - Loss: 2.150832, Accuracy: 34.1%
+
+Epoch 5/50
+-------------------------------
+Train - Loss: 2.209274, Accuracy: 32.1%
+Validation - Loss: 2.154223, Accuracy: 33.9%
+
+Epoch 6/50
+-------------------------------
+Train - Loss: 2.158581, Accuracy: 33.9%
+Validation - Loss: 2.067324, Accuracy: 36.5%
+
+Epoch 7/50
+-------------------------------
+Train - Loss: 2.107369, Accuracy: 35.6%
+Validation - Loss: 2.038932, Accuracy: 38.0%
+
+Epoch 8/50
+-------------------------------
+Train - Loss: 2.076022, Accuracy: 36.3%
+Validation - Loss: 2.031546, Accuracy: 36.9%
+
+Epoch 9/50
+-------------------------------
+Train - Loss: 2.043206, Accuracy: 37.1%
+Validation - Loss: 2.010965, Accuracy: 38.4%
+
+Epoch 10/50
+-------------------------------
+Train - Loss: 2.012215, Accuracy: 38.1%
+Validation - Loss: 1.990602, Accuracy: 38.8%
+
+Epoch 11/50
+-------------------------------
+Train - Loss: 1.981593, Accuracy: 38.9%
+Validation - Loss: 1.983553, Accuracy: 38.6%
+
+Epoch 12/50
+-------------------------------
+Train - Loss: 1.955543, Accuracy: 39.8%
+Validation - Loss: 2.013739, Accuracy: 37.9%
+
+Epoch 13/50
+-------------------------------
+Train - Loss: 1.926532, Accuracy: 40.5%
+Validation - Loss: 1.945537, Accuracy: 39.7%
+
+Epoch 14/50
+-------------------------------
+Train - Loss: 1.904529, Accuracy: 41.0%
+Validation - Loss: 1.922109, Accuracy: 41.1%
+
+Epoch 15/50
+-------------------------------
+Train - Loss: 1.892927, Accuracy: 41.5%
+Validation - Loss: 1.932852, Accuracy: 40.6%
+
+Epoch 16/50
+-------------------------------
+Train - Loss: 1.873423, Accuracy: 42.1%
+Validation - Loss: 1.945744, Accuracy: 40.3%
+
+Epoch 17/50
+-------------------------------
+Train - Loss: 1.854034, Accuracy: 42.5%
+Validation - Loss: 1.960133, Accuracy: 39.8%
+
+Epoch 18/50
+-------------------------------
+Train - Loss: 1.827986, Accuracy: 43.3%
+Validation - Loss: 1.923768, Accuracy: 41.5%
+
+Epoch 19/50
+-------------------------------
+Train - Loss: 1.812646, Accuracy: 43.8%
+Validation - Loss: 1.929960, Accuracy: 41.0%
+
+Early stopping, saved epoch is: 14
+Training complete. History saved to history_variant_cifar100.json
+Model weights saved to history_variant_cifar100.pth
+
+Process finished with exit code 0

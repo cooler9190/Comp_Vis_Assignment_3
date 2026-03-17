@@ -16,7 +16,8 @@ from training_and_validation import run_and_save_results
 
 # Cifar 100
 from CIFAR100_model import Cifar100 as ModelToTrain
-model_filename = "history_cifar100.json"
+model_filename = "history_variant_cifar100.json"
 
 if __name__ == "__main__":
-    run_and_save_results(ModelToTrain, model_filename)
+    # run_and_save_results(ModelToTrain, model_filename)
+    run_and_save_results(ModelToTrain, model_filename, True) # For cifar 100.

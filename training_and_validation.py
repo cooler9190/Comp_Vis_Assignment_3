@@ -1,8 +1,7 @@
+# https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html
 import torch
 import json
 from torch import nn
-
-# https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html
 
 # Import dataloaders for CIFAR-10 dataset
 # from load_CIFAR10 import train_dataloader, validation_dataloader
@@ -10,7 +9,20 @@ from torch import nn
 # Import dataloaders for CIFAR-100 dataset
 from load_CIFAR100 import train_dataloader, validation_dataloader
 
-def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50):
+# The model is deteriorating if no (significant) improvement is found,
+# compared to the best (lowest) validation loss at that point.
+def should_deteriorate(validation_loss, lowest_validation_loss, until_convergence):
+    if validation_loss < lowest_validation_loss:
+        if until_convergence: # See if relative improvement is significant.
+            # We compare the current loss to the lowest record loss, instead of comparing to the (general) previous loss.
+            # This is done as we want to measure the relative **improvement**, not the relative change.
+            relative_improvement = (lowest_validation_loss - validation_loss) / lowest_validation_loss
+            minimal_improvement = 1e-3
+            if relative_improvement < minimal_improvement: return True # => No significant improvement.
+        return False # => Model improved (significantly)
+    return True # => Model didn't improve (significantly)
+
+def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=False):
     # Dictionary to store training and validation metrics for each epoch, including the deteriorated epoch metrics.
     # Therefore, the 'best' epoch count is 'length - patience'.
     history = {
@@ -77,21 +89,22 @@ def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, l
         print(f"Train - Loss: {history['train_loss'][-1]:>4f}, Accuracy: {(100*history['train_accuracy'][-1]):>0.1f}%")
         print(f"Validation - Loss: {history['validation_loss'][-1]:>4f}, Accuracy: {(100*history['validation_accuracy'][-1]):>0.1f}%\n")
 
-        # Update variables required early stopping.
-        if validation_loss < lowest_validation_loss: # Model is improving, so update weight save.
+        # Check for validation loss deterioration (=> early stop / until convergence).
+        deteriorate = should_deteriorate(validation_loss, lowest_validation_loss, until_convergence)
+        if deteriorate: deterioration_counter += 1 # Model getting worse (or plateauing).
+        else: # Model improving (significantly).
             lowest_validation_loss = validation_loss # New lower (better) validation loss.
             deterioration_counter = 0 # Reset deterioration.
-            torch.save(model.state_dict(), weight_filename) # Override saved trained model weights
-        else: deterioration_counter += 1 # Model getting worse (or plateauing).
+            torch.save(model.state_dict(), weight_filename) # Override saved trained model weights.
 
-        # Early Stopping, when model hasn't improved for 'patience' long
+        # Early Stopping (or convergence), when model hasn't improved for 'patience' long.
         if deterioration_counter >= patience:
             print(f"Early stopping, saved epoch is: {epoch - deterioration_counter + 1}")
             break
 
     return history
 
-def run_and_save_results(ModelToTrain, model_filename):
+def run_and_save_results(ModelToTrain, model_filename, converge_mode=False):
     # Get accelerator
     if hasattr(torch, 'accelerator') and torch.accelerator.is_available():
         device = torch.accelerator.current_accelerator().type
@@ -112,7 +125,7 @@ def run_and_save_results(ModelToTrain, model_filename):
     # Run the training and validation loop
     print("Starting training and validation...")
     weight_filename = model_filename.replace(".json", ".pth")
-    history = train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=100)
+    history = train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=converge_mode)
 
     # Save the training history to a JSON file
     with open(model_filename, 'w') as f:
