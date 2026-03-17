@@ -1,4 +1,5 @@
 from torch import nn
+# https://d2l.ai/chapter_convolutional-neural-networks/lenet.html
 
 class LeNet5Color(nn.Module):
     def __init__(self):
@@ -40,6 +41,7 @@ class LeNet5Color(nn.Module):
         x = self.fc3(x)
 
         # Returning raw logits, as CrossEntropyLoss will apply softmax internally
+        #x = nn.Softmax(dim=1)
         return x
     
     def _initialize_weights(self):

@@ -2,6 +2,8 @@ import torch
 import json
 from torch import nn
 
+# https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html
+
 # Import dataloaders
 from load_CIFAR10 import train_dataloader, validation_dataloader
 
@@ -19,47 +21,48 @@ def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, l
         # Training phase
         model.train()  # Set model to training mode
         train_loss = 0.0
-        correct_train = 0
-        total_train = len(train_dataloader.dataset)
+        train_accuracy = 0
+        train_length = len(train_dataloader.dataset)
         
-        for X, y in train_dataloader:
-            X, y = X.to(device), y.to(device)
+        for train_features, train_labels in train_dataloader:
+            train_features, train_labels = train_features.to(device, non_blocking=True), train_labels.to(device, non_blocking=True)
 
             # Forward pass
-            outputs = model(X)
-            loss = loss_fn(outputs, y)
+            prediction = model(train_features)
+            loss = loss_fn(prediction, train_labels)
 
             # Backpropagation
-            optimizer.zero_grad() # Clear previous gradients
             loss.backward() # Compute gradients
             optimizer.step() # Update weights
+            optimizer.zero_grad() # Clear previous gradients
 
             # Track metrics
-            train_loss += loss.item() * X.size(0) # Accumulate loss
-            correct_train += (outputs.argmax(1) == y).type(torch.float).sum().item() # Count correct predictions
+            train_loss += loss.item() * train_features.size(0) # Accumulate loss
+            train_accuracy += (prediction.argmax(1) == train_labels).type(torch.float).sum().item() # Count correct predictions
 
-        history['train_loss'].append(train_loss / total_train) # Average loss for the epoch
-        history['train_accuracy'].append(correct_train / total_train) # Accuracy for the epoch
+        history['train_loss'].append(train_loss / train_length) # Average loss for the epoch
+        history['train_accuracy'].append(train_accuracy / train_length) # Accuracy for the epoch
 
         # Validation phase
         model.eval() # Set model to evaluation mode
-        val_loss = 0.0
-        correct_val = 0
-        total_val = len(validation_dataloader.dataset)
+        validation_loss = 0.0
+        validation_accuracy = 0
+        validation_length = len(validation_dataloader.dataset)
 
         with torch.no_grad(): # Disable gradient calculation for validation
-            for X, y in validation_dataloader:
-                X, y = X.to(device), y.to(device)
+            for train_features, train_labels in validation_dataloader:
+                train_features, train_labels = train_features.to(device), train_labels.to(device)
 
-                outputs = model(X)
-                loss = loss_fn(outputs, y)
+                # Forward pass
+                prediction = model(train_features)
+                loss = loss_fn(prediction, train_labels)
 
-                val_loss += loss.item() * X.size(0) # Accumulate validation loss
-                correct_val += (outputs.argmax(1) == y).type(torch.float).sum().item() # Count correct predictions
+                # Track metrics
+                validation_loss += loss.item() * train_features.size(0) # Accumulate validation loss
+                validation_accuracy += (prediction.argmax(1) == train_labels).type(torch.float).sum().item() # Count correct predictions
 
-
-        history['validation_loss'].append(val_loss / total_val) # Average validation loss for the epoch
-        history['validation_accuracy'].append(correct_val / total_val) # Validation accuracy for the epoch
+        history['validation_loss'].append(validation_loss / validation_length) # Average validation loss for the epoch
+        history['validation_accuracy'].append(validation_accuracy / validation_length) # Validation accuracy for the epoch
 
         print(f"Train - Loss: {history['train_loss'][-1]:>4f}, Accuracy: {(100*history['train_accuracy'][-1]):>0.1f}%")
         print(f"Validation - Loss: {history['validation_loss'][-1]:>4f}, Accuracy: {(100*history['validation_accuracy'][-1]):>0.1f}%\n")

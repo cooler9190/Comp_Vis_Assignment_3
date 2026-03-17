@@ -52,6 +52,7 @@ class LeNet5Variant1(nn.Module):
         x = self.fc3(x)
 
         # Returning raw logits, as CrossEntropyLoss will apply softmax internally
+        #x = nn.Softmax(dim=1)
         return x
     
     def _initialize_weights(self):

@@ -36,7 +36,7 @@ labels_map = {
 
 # We split the training data into a training set and a validation set to evaluate the model's performance during training. 
 # The training set will be used to train the model, while the validation set will be used to evaluate the model's performance on unseen data and to tune hyperparameters.
-# A 80-20 split is common practice, to ensure NN has enough data to learn from, and to have a sufficient validation set for evaluation.
+# A 80-20 split is common practice (according to lectures), to ensure NN has enough data to learn from, and to have a sufficient validation set for evaluation.
 train_size = 40000
 validation_size = 10000
 
@@ -46,11 +46,13 @@ training_data, validation_data = random_split(full_training_data, [train_size, v
 # Create dataloaders for training, validation, and test sets. Dataloaders are used to load data in batches during training and evaluation.
 # Validation and Test sets are not shuffled to ensure consistent evaluation, while the training set is shuffled to improve model generalization 
 # by exposing it to different data orders during each epoch.
-train_dataloader = DataLoader(training_data, batch_size=32, shuffle=True)
-validation_dataloader = DataLoader(validation_data, batch_size=32, shuffle=False)
-test_dataloader = DataLoader(test_data, batch_size=32, shuffle=False)
+set_batch_size = 32
+train_dataloader = DataLoader(training_data, batch_size=set_batch_size, shuffle=True)
+validation_dataloader = DataLoader(validation_data, batch_size=set_batch_size, shuffle=False)
+test_dataloader = DataLoader(test_data, batch_size=set_batch_size, shuffle=False)
 
 
+# Display first image of batch, given a dataloader. For testing purposes only.
 def display_batch_of_images(dataloader, labels_map):
     # Display a batch of training data
     train_features, train_labels = next(iter(dataloader))
@@ -69,3 +71,7 @@ def display_batch_of_images(dataloader, labels_map):
     plt.title(f"Label: {labels_map[label_idx]}")
     plt.axis("off")
     plt.show()
+
+# display_batch_of_images(train_dataloader, labels_map)
+# display_batch_of_images(validation_dataloader, labels_map)
+# display_batch_of_images(test_dataloader, labels_map)
