@@ -3,12 +3,6 @@ import torch
 import json
 from torch import nn
 
-# Import dataloaders for CIFAR-10 dataset
-from load_CIFAR10 import train_dataloader, validation_dataloader
-
-# Import dataloaders for CIFAR-100 dataset
-# from load_CIFAR100 import train_dataloader, validation_dataloader
-
 # The model is deteriorating if no (significant) improvement is found,
 # compared to the best (lowest) validation loss at that point.
 def should_deteriorate(validation_loss, lowest_validation_loss, until_convergence):
@@ -104,7 +98,7 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
 
     return history
 
-def run_and_save_results(ModelToTrain, model_filename, converge_mode=False, learning_rate=0.001):
+def run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.001):
     # Get accelerator
     if hasattr(torch, 'accelerator') and torch.accelerator.is_available():
         device = torch.accelerator.current_accelerator().type
