@@ -57,6 +57,22 @@ for coarse_label, fine_labels_list in coarse_mapping.items():
     for fine_label in fine_labels_list:
         fine_to_coarse[fine_label] = coarse_label
 
+coarse_classes = sorted(list(coarse_mapping.keys()))
+fine_idx_to_coarse_idx = {}
+
+for fine_idx, fine_label in enumerate(fine_labels_map):
+    coarse_label = fine_to_coarse[fine_label]
+    coarse_idx = coarse_classes.index(coarse_label)
+    fine_idx_to_coarse_idx[fine_idx] = coarse_idx
+
+# Define the transform function to convert fine labels to coarse labels, which will be used to create a new dataset with coarse labels for training and validation.
+def coarse_transform(fine_idx):
+    return fine_idx_to_coarse_idx[fine_idx]
+
+# Apply target transform to the training and test datasets to convert fine labels to coarse labels
+full_training_data.target_transform = coarse_transform
+test_data.target_transform = coarse_transform
+
 # We split the training data into a training set and a validation set to evaluate the model's performance during training. 
 # The training set will be used to train the model, while the validation set will be used to evaluate the model's performance on unseen data and to tune hyperparameters.
 # A 80-20 split is common practice, to ensure NN has enough data to learn from, and to have a sufficient validation set for evaluation.
@@ -69,32 +85,32 @@ training_data, validation_data = random_split(full_training_data, [train_size, v
 # Create dataloaders for training, validation, and test sets. Dataloaders are used to load data in batches during training and evaluation.
 # Validation and Test sets are not shuffled to ensure consistent evaluation, while the training set is shuffled to improve model generalization 
 # by exposing it to different data orders during each epoch.
-train_dataloader = DataLoader(training_data, batch_size=32, shuffle=True)
-validation_dataloader = DataLoader(validation_data, batch_size=32, shuffle=False)
-test_dataloader = DataLoader(test_data, batch_size=32, shuffle=False)
-
+set_batch_size = 32
+train_dataloader = DataLoader(training_data, batch_size=set_batch_size, shuffle=True)
+validation_dataloader = DataLoader(validation_data, batch_size=set_batch_size, shuffle=False)
+test_dataloader = DataLoader(test_data, batch_size=set_batch_size, shuffle=False)
 
 # Display a batch of training data
+def display_image_from_dataloader(dataloader):
+    train_features, train_labels = next(iter(dataloader))
 
-train_features, train_labels = next(iter(train_dataloader))
+    # Expecting a batch of 32 images, each with 3 color channels (RGB) and dimensions 32x32 pixels, and a batch of 32 labels corresponding to the images.
+    print(f"Feature batch shape: {train_features.size()}")
+    print(f"Labels batch shape: {train_labels.size()}")
 
-# Expecting a batch of 32 images, each with 3 color channels (RGB) and dimensions 32x32 pixels, and a batch of 32 labels corresponding to the images.
-print(f"Feature batch shape: {train_features.size()}")
-print(f"Labels batch shape: {train_labels.size()}")
+    # Display the first image in the batch and its corresponding label
+    # Pytorch tensors are in the format (channels, height, width), but matplotlib expects images in the format (height, width, channels)
+    # so we permute the dimensions of the image tensor to match the expected format for displaying with matplotlib.
+    for i in range(12):
+        img = train_features[i].permute(1, 2, 0)
+        label_idx = train_labels[i].item()
 
-# Display the first image in the batch and its corresponding label
-# Pytorch tensors are in the format (channels, height, width), but matplotlib expects images in the format (height, width, channels)
-# so we permute the dimensions of the image tensor to match the expected format for displaying with matplotlib.
-for i in range(12):
-    img = train_features[i].permute(1, 2, 0)
-    label_idx = train_labels[i].item()
+        # Look up the fine and coarse label names
+        fine_label_name = fine_labels_map[label_idx]
+        coarse_label_name = fine_to_coarse[fine_label_name]
 
-    # Look up the fine and coarse label names
-    fine_label_name = fine_labels_map[label_idx]
-    coarse_label_name = fine_to_coarse[fine_label_name]
-
-    plt.imshow(img)
-    plt.title(f"Fine: {fine_label_name.title()} | Coarse: {coarse_label_name.title()}")
-    plt.axis("off")
-    plt.show()
+        plt.imshow(img)
+        plt.title(f"Fine: {fine_label_name.title()} | Coarse: {coarse_label_name.title()}")
+        plt.axis("off")
+        plt.show()
 

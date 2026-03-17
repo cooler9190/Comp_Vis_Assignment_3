@@ -4,8 +4,11 @@ from torch import nn
 
 # https://docs.pytorch.org/tutorials/beginner/basics/optimization_tutorial.html
 
-# Import dataloaders
-from load_CIFAR10 import train_dataloader, validation_dataloader
+# Import dataloaders for CIFAR-10 dataset
+# from load_CIFAR10 import train_dataloader, validation_dataloader
+
+# Import dataloaders for CIFAR-100 dataset
+from load_CIFAR100 import train_dataloader, validation_dataloader
 
 def train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50):
     # Dictionary to store training and validation metrics for each epoch, including the deteriorated epoch metrics.
@@ -109,7 +112,7 @@ def run_and_save_results(ModelToTrain, model_filename):
     # Run the training and validation loop
     print("Starting training and validation...")
     weight_filename = model_filename.replace(".json", ".pth")
-    history = train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50)
+    history = train_and_validate_CIFAR10(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=100)
 
     # Save the training history to a JSON file
     with open(model_filename, 'w') as f:

@@ -1,4 +1,4 @@
-﻿from torch import nn
+from torch import nn
 
 # We increase the number of kernels in the convolutional layers of the LeNet-5 architecture.
 # This allows the model to learn more complex and abstract features from the input images, which can improve its performance on the CIFAR-10 dataset.
@@ -28,24 +28,25 @@ class Cifar100(nn.Module):
         self.fc1 = nn.Linear(in_features=32*5*5, out_features=120)
         self.relu3 = nn.ReLU()
 
-        # First attempt:
+        # Dropout layer with a 45% probability
         dropout_probability = 0.45
         self.dropout1 = nn.Dropout(p=dropout_probability)
 
         self.fc2 = nn.Linear(in_features=120, out_features=84)
         self.relu4 = nn.ReLU()
-        self.dropout2 = nn.Dropout(p=dropout_probability)
+        self.dropout2 = nn.Dropout(p=0.45)
 
+        # Output layer with 20 output features to match the number of classes in CIFAR-100 dataset
         self.fc3 = nn.Linear(in_features=84, out_features=20)
 
         # Apply custom weight initialization
         self._initialize_weights()
-
+    
     def forward(self, x):
         x = self.pool1(self.relu1(self.conv1(x)))
         x = self.pool2(self.relu2(self.conv2(x)))
         x = self.flatten(x)
-
+        
         # Applying dropout after activation functions
         x = self.dropout1(self.relu3(self.fc1(x)))
         x = self.dropout2(self.relu4(self.fc2(x)))
@@ -54,7 +55,7 @@ class Cifar100(nn.Module):
         # Returning raw logits, as CrossEntropyLoss will apply softmax internally
         #x = nn.Softmax(dim=1)
         return x
-
+    
     def _initialize_weights(self):
         # Iterate through all modules in the network
         for m in self.modules():
