@@ -15,9 +15,14 @@ from training_and_validation import run_and_save_results
 # model_filename = "history_variant2.json"
 
 # Cifar 100
-from CIFAR100_model import Cifar100 as ModelToTrain
-model_filename = "history_variant_cifar100.json"
+# from CIFAR100_model import Cifar100 as ModelToTrain
+# model_filename = "history_variant_cifar100.json"
+
+# Variant Pretrained
+from CIFAR10_pretrained import LeNet5VariantPretrained as ModelToTrain
+model_filename = "history_variant_pretrained.json"
 
 if __name__ == "__main__":
     # run_and_save_results(ModelToTrain, model_filename)
-    run_and_save_results(ModelToTrain, model_filename, True) # For cifar 100.
+    # run_and_save_results(ModelToTrain, model_filename, True) # For cifar 100.
+    run_and_save_results(ModelToTrain, model_filename, False, 0.0005) # For variant pretrained

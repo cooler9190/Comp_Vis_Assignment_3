@@ -104,7 +104,7 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
 
     return history
 
-def run_and_save_results(ModelToTrain, model_filename, converge_mode=False):
+def run_and_save_results(ModelToTrain, model_filename, converge_mode=False, learning_rate=0.001):
     # Get accelerator
     if hasattr(torch, 'accelerator') and torch.accelerator.is_available():
         device = torch.accelerator.current_accelerator().type
@@ -120,7 +120,7 @@ def run_and_save_results(ModelToTrain, model_filename, converge_mode=False):
 
     # Define the loss function and optimizer
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
     # Run the training and validation loop
     print("Starting training and validation...")
