@@ -66,19 +66,20 @@ def test_model(model_to_test):
     confusion = confusion_matrix(all_labels, all_predictions)
 
     # Start matplotlib figure with labels and title.
-    plt.figure(figsize=(10, 8))
-    plt.xlabel("Predicted")
-    plt.ylabel("Actual")
+    plt.figure(figsize=(10, 10), constrained_layout=True)
     plt.title(f"Confusion Matrix for {model_name(model_to_test)}")
 
     # Add heatmap using seaborn
-    seaborn.heatmap(confusion, annot=True, fmt="d", cmap="Blues")
+    seaborn.heatmap(confusion, annot=True, fmt="d", cmap="Blues", square=True, cbar_kws={"shrink": 0.8})
 
     # Replace the axis ticks with class labels
     class_labels = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
     tick_positions = np.arange(0, 10) + 0.5 # Middle of cell, 10x times.
     plt.xticks(ticks=tick_positions, labels=class_labels, rotation=45)  # predicted labels
     plt.yticks(ticks=tick_positions, labels=class_labels, rotation=0)   # true labels
+
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual", labelpad=-20)
 
     # Show and save the image.
     matrices_dir = "confusion_matrices"
