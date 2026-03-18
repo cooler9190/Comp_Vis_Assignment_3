@@ -1,18 +1,10 @@
-﻿import numpy as np
-import torch
+﻿import torch
 from torchsummary import summary
-import matplotlib.pyplot as plt
-import seaborn
-import os
-
-
-
 
 # Baseline
-# from load_CIFAR10 import test_dataloader
-# from CIFAR10_lenet import LeNet5Color as ModelToSummarize
-# load_path = "baseline_results_and_weights/history_baseline.pth"
-
+from load_CIFAR10 import test_dataloader
+from CIFAR10_lenet import LeNet5Color as ModelToSummarize
+load_path = "baseline_results_and_weights/history_baseline.pth"
 
 # Variant 1: Dropout
 # from load_CIFAR10 import test_dataloader
@@ -30,9 +22,9 @@ import os
 # load_path = "variant_cifar100_results_and_weights/history_variant_cifar100.pth"
 
 # Variant Pretrained: Uses params of cifar 100 model (except for the output layer due to differing feature sizes).
-from load_CIFAR10 import test_dataloader
-from CIFAR10_pretrained import LeNet5VariantPretrained as ModelToSummarize
-load_path = "variant_pretrained_results_and_weights/45_percent_dropout_probability/history_variant_pretrained.pth"
+# from load_CIFAR10 import test_dataloader
+# from CIFAR10_pretrained import LeNet5VariantPretrained as ModelToSummarize
+# load_path = "variant_pretrained_results_and_weights/45_percent_dropout_probability/history_variant_pretrained.pth"
 
 def summarize_model(model_to_test):
     # Get accelerator
@@ -50,5 +42,5 @@ def summarize_model(model_to_test):
     # Print summary, using image shape from dataloader as input size.
     images, _ = next(iter(test_dataloader))
     summary(model, input_size=images.shape[1:])
-
+    # Show and save model graph.
 summarize_model(ModelToSummarize)
