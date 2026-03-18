@@ -2,6 +2,7 @@
 import torch
 import matplotlib.pyplot as plt
 import seaborn
+import os
 
 from sklearn.metrics import confusion_matrix
 from load_CIFAR10 import test_dataloader
@@ -22,6 +23,10 @@ def loading_path(model_to_test):
 def model_name(model_to_test):
     if model_to_test == Best10Model: return "Best CIFAR10 trained model (Variant 2)"
     return "Pre-trained model (on CIFAR100)"
+
+def matrix_name(model_to_test):
+    if model_to_test == Best10Model: return "v2.png"
+    return "pretrained.png"
 
 def test_model(model_to_test):
     model = model_to_test() # Instantiate the model.
@@ -75,9 +80,12 @@ def test_model(model_to_test):
     plt.xticks(ticks=tick_positions, labels=class_labels, rotation=45)  # predicted labels
     plt.yticks(ticks=tick_positions, labels=class_labels, rotation=0)   # true labels
 
-    # Show the image.
+    # Show and save the image.
     plt.show()
-
+    matrices_dir = "confusion_matrices"
+    os.makedirs(matrices_dir, exist_ok=True) # Make directory if not present
+    fig_path = os.path.join(matrices_dir, matrix_name(model_to_test)) # Image name and location.
+    plt.savefig(fig_path)  # Saves the image
 
 test_model(Best10Model)
 test_model(PretrainedModel)
