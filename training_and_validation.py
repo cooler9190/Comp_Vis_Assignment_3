@@ -39,12 +39,12 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
         train_accuracy = 0
         train_length = len(train_dataloader.dataset)
         
-        for train_features, train_labels in train_dataloader:
-            train_features, train_labels = train_features.to(device, non_blocking=True), train_labels.to(device, non_blocking=True)
+        for images, labels in train_dataloader: # For each testing batch:
+            images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
 
             # Forward pass
-            prediction = model(train_features)
-            loss = loss_fn(prediction, train_labels)
+            predictions = model(images) # Predict labels for all images in batch, in parallel.
+            loss = loss_fn(predictions, labels)
 
             # Backpropagation
             loss.backward() # Compute gradients
@@ -52,8 +52,8 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
             optimizer.zero_grad() # Clear previous gradients
 
             # Track metrics
-            train_loss += loss.item() * train_features.size(0) # Accumulate loss
-            train_accuracy += (prediction.argmax(1) == train_labels).type(torch.float).sum().item() # Count correct predictions
+            train_loss += loss.item() * images.size(0) # Accumulate loss
+            train_accuracy += (predictions.argmax(1) == labels).type(torch.float).sum().item() # Count only correct predictions (top-1)
 
         history['train_loss'].append(train_loss / train_length) # Average loss for the epoch
         history['train_accuracy'].append(train_accuracy / train_length) # Accuracy for the epoch
@@ -65,16 +65,16 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
         validation_length = len(validation_dataloader.dataset)
 
         with torch.no_grad(): # Disable gradient calculation for validation
-            for train_features, train_labels in validation_dataloader:
-                train_features, train_labels = train_features.to(device), train_labels.to(device)
+            for images, labels in validation_dataloader: # For each testing batch:
+                images, labels = images.to(device, non_blocking=True), labels.to(device, non_blocking=True)
 
                 # Forward pass
-                prediction = model(train_features)
-                loss = loss_fn(prediction, train_labels)
+                predictions = model(images) # Predict labels for all images in batch, in parallel.
+                loss = loss_fn(predictions, labels)
 
                 # Track metrics
-                validation_loss += loss.item() * train_features.size(0) # Accumulate validation loss
-                validation_accuracy += (prediction.argmax(1) == train_labels).type(torch.float).sum().item() # Count correct predictions
+                validation_loss += loss.item() * images.size(0) # Accumulate validation loss
+                validation_accuracy += (predictions.argmax(1) == labels).type(torch.float).sum().item() # Count only correct predictions (top-1)
 
         history['validation_loss'].append(validation_loss / validation_length) # Average validation loss for the epoch
         history['validation_accuracy'].append(validation_accuracy / validation_length) # Validation accuracy for the epoch
@@ -98,7 +98,7 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
 
     return history
 
-def run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.001):
+def run_and_save_results(model_to_train, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.001):
     # Get accelerator
     if hasattr(torch, 'accelerator') and torch.accelerator.is_available():
         device = torch.accelerator.current_accelerator().type
@@ -108,7 +108,7 @@ def run_and_save_results(ModelToTrain, model_filename, train_dataloader, validat
     print(f"Using {device} device")
 
     # Instantiate the model and move it to the appropriate device (GPU or CPU)
-    model = ModelToTrain().to(device)
+    model = model_to_train().to(device)
     print(f"Model architecture: {model}")
     print(f"Training model saving history to {model_filename}")
 
