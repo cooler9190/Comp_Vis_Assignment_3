@@ -19,6 +19,10 @@ def loading_path(model_to_test):
     if model_to_test == Best10Model: return "variant2_results_and_weights/45_percent_dropout_probability/history_variant2.pth"
     return "variant_pretrained_results_and_weights/45_percent_dropout_probability/history_variant_pretrained.pth"
 
+def model_name(model_to_test):
+    if model_to_test == Best10Model: return "Best CIFAR10 trained model (Variant 2)"
+    return "Pre-trained model (on CIFAR100)"
+
 def test_model(model_to_test):
     model = model_to_test() # Instantiate the model.
     path = loading_path(model_to_test) # Get params file path.
@@ -60,15 +64,16 @@ def test_model(model_to_test):
     plt.figure(figsize=(10, 8))
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
-    plt.title("Confusion Matrix")
+    plt.title(f"Confusion Matrix for {model_name(model_to_test)}")
+
+    # Add heatmap using seaborn
+    seaborn.heatmap(confusion, annot=True, fmt="d", cmap="Blues")
 
     # Replace the axis ticks with class labels
     class_labels = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
-    plt.xticks(ticks=np.arange(10)+0.5, labels=class_labels, rotation=45)  # predicted labels
-    plt.yticks(ticks=np.arange(10)+0.5, labels=class_labels, rotation=0)   # true labels
-
-    # Generate heatmap using seaborn
-    seaborn.heatmap(confusion, annot=True, fmt="d", cmap="Blues")
+    tick_positions = np.arange(0, 10) + 0.5 # Middle of cell, 10x times.
+    plt.xticks(ticks=tick_positions, labels=class_labels, rotation=45)  # predicted labels
+    plt.yticks(ticks=tick_positions, labels=class_labels, rotation=0)   # true labels
 
     # Show the image.
     plt.show()
