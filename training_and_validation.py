@@ -136,7 +136,7 @@ def run_and_save_results(model_to_train, model_filename, train_dataloader, valid
     # Run the training and validation loop
     print("Starting training and validation...")
     weight_filename = model_filename.replace(".json", ".pth")
-    history = train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=converge_mode, use_scheduler=use_scheduler)
+    history = train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=200, until_convergence=converge_mode, use_scheduler=use_scheduler)
 
     # Save the training history to a JSON file
     with open(model_filename, 'w') as f:
