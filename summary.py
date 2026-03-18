@@ -1,5 +1,6 @@
 ﻿import torch
 from torchsummary import summary
+from torchview import draw_graph
 
 # Baseline
 from load_CIFAR10 import test_dataloader
@@ -42,5 +43,5 @@ def summarize_model(model_to_test):
     # Print summary, using image shape from dataloader as input size.
     images, _ = next(iter(test_dataloader))
     summary(model, input_size=images.shape[1:])
-    # Show and save model graph.
+
 summarize_model(ModelToSummarize)
