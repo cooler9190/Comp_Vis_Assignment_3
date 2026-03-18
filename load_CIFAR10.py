@@ -64,7 +64,8 @@ validation_size = 10000
 # Train and validation sets are created by randomly splitting the full training data into two subsets of the specified sizes.
 raw_training_data, raw_validation_data = random_split(full_training_data, [train_size, validation_size])
 
-# Wrap subsets with repsective transforms
+# Wrap subsets with respective transforms
+# training_data = DatasetWrapper(raw_training_data, transform=ToTensor()) # No data augmentation
 training_data = DatasetWrapper(raw_training_data, transform=train_transforms) # Apply data augmentation transforms to the training set, but not to the validation set, to ensure that the validation set remains a reliable benchmark for evaluating the model's performance on unseen data.
 validation_data = DatasetWrapper(raw_validation_data, transform=ToTensor()) # Apply only the ToTensor transform to the validation set.
 
