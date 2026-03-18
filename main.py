@@ -3,9 +3,11 @@ from training_and_validation import run_and_save_results
 # Import model architectures
 
 # Baseline
-# from load_CIFAR10 import train_dataloader, validation_dataloader # Import dataloaders for CIFAR-10 dataset
-# from CIFAR10_lenet import LeNet5Color as ModelToTrain
+from load_CIFAR10 import train_dataloader, validation_dataloader # Import dataloaders for CIFAR-10 dataset
+from CIFAR10_lenet import LeNet5Color as ModelToTrain
 # model_filename = "history_baseline.json"
+# model_filename = "history_baseline_scheduler.json"
+model_filename = "history_baseline_augmented_data.json"
 
 # Variant 1: Dropout
 # from load_CIFAR10 import train_dataloader, validation_dataloader # Import dataloaders for CIFAR-10 dataset
@@ -23,11 +25,12 @@ from training_and_validation import run_and_save_results
 # model_filename = "history_variant_cifar100.json"
 
 # Variant Pretrained: Uses params of cifar 100 model (except for the output layer due to differing feature sizes).
-from load_CIFAR10 import train_dataloader, validation_dataloader # Import dataloaders for CIFAR-10 dataset
-from CIFAR10_pretrained import LeNet5VariantPretrained as ModelToTrain
-model_filename = "history_variant_pretrained.json"
+# from load_CIFAR10 import train_dataloader, validation_dataloader # Import dataloaders for CIFAR-10 dataset
+# from CIFAR10_pretrained import LeNet5VariantPretrained as ModelToTrain
+# model_filename = "history_variant_pretrained.json"
 
 if __name__ == "__main__":
-    # run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader)
+    run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader)
     # run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader, True) # For cifar 100.
-    run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.0005) # For variant pretrained
+    # run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.0005) # For variant pretrained
+    # run_and_save_results(ModelToTrain, model_filename, train_dataloader, validation_dataloader, use_scheduler=True) # For baseline with scheduler

@@ -1,16 +1,30 @@
 # Tutorial used: https://docs.pytorch.org/tutorials/beginner/basics/data_tutorial.html#preparing-your-data-for-training-with-dataloaders
 
-from torch.utils.data import DataLoader, random_split
-from torchvision import datasets
+from torch.utils.data import DataLoader, random_split, Dataset
+from torchvision import datasets, transforms as transform
 from torchvision.transforms import ToTensor
 import matplotlib.pyplot as plt
+
+class DatasetWrapper(Dataset):
+    def __init__(self, subset, transform):
+        self.subset = subset
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.subset)
+
+    def __getitem__(self, idx):
+        image, label = self.subset[idx]
+        if self.transform:
+            image = self.transform(image)
+        return image, label
 
 # Load training set from CIFAR10 dataset, download if not already downloaded, and transform to tensor
 full_training_data = datasets.CIFAR10(
     root="CIFAR10",
     train=True,
     download=True,
-    transform=ToTensor()
+    transform=None
 )
 
 # Load test set from CIFAR10 dataset, download if not already downloaded, and transform to tensor
@@ -34,14 +48,25 @@ labels_map = {
     9: "truck",
 }
 
-# We split the training data into a training set and a validation set to evaluate the model's performance during training. 
+train_transforms = transform.Compose([
+    transform.RandomHorizontalFlip(0.5), # Randomly flip the image horizontally with a probability of 0.5
+    transform.RandomRotation(degrees=15), # Randomly rotate the image by an angle between -15 and 15 degrees
+    transform.RandomCrop(32, padding=4), # Randomly crop the image to a size of 32x32 pixels with a padding of 4 pixels on each side\
+    transform.ToTensor() # Convert the image to a PyTorch tensor
+])
+
+# We split the training data into a training set and a validation set to evaluate the model's performance during training.
 # The training set will be used to train the model, while the validation set will be used to evaluate the model's performance on unseen data and to tune hyperparameters.
 # A 80-20 split is common practice (according to lectures), to ensure NN has enough data to learn from, and to have a sufficient validation set for evaluation.
 train_size = 40000
 validation_size = 10000
 
 # Train and validation sets are created by randomly splitting the full training data into two subsets of the specified sizes.
-training_data, validation_data = random_split(full_training_data, [train_size, validation_size])
+raw_training_data, raw_validation_data = random_split(full_training_data, [train_size, validation_size])
+
+# Wrap subsets with repsective transforms
+training_data = DatasetWrapper(raw_training_data, transform=train_transforms) # Apply data augmentation transforms to the training set, but not to the validation set, to ensure that the validation set remains a reliable benchmark for evaluating the model's performance on unseen data.
+validation_data = DatasetWrapper(raw_validation_data, transform=ToTensor()) # Apply only the ToTensor transform to the validation set.
 
 # Create dataloaders for training, validation, and test sets. Dataloaders are used to load data in batches during training and evaluation.
 # Validation and Test sets are not shuffled to ensure consistent evaluation, while the training set is shuffled to improve model generalization 

@@ -16,12 +16,17 @@ def should_deteriorate(validation_loss, lowest_validation_loss, until_convergenc
         return False # => Model improved (significantly)
     return True # => Model didn't improve (significantly)
 
-def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=False):
+def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=False, use_scheduler=False):
+    # Initialize scheduler for learning rate decay, if specified.
+    if use_scheduler:
+        scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5) # Decay learning rate by a factor of 0.5 every 5 epochs.
+    
     # Dictionary to store training and validation metrics for each epoch, including the deteriorated epoch metrics.
     # Therefore, the 'best' epoch count is 'length - patience'.
     history = {
         'train_loss': [], 'train_accuracy': [],
-        'validation_loss': [], 'validation_accuracy': []
+        'validation_loss': [], 'validation_accuracy': [],
+        'learning_rate': []
     }
 
     # Early Stopping condition: stop when validation loss hasn't improved for 'patient' epochs.
@@ -79,9 +84,21 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
         history['validation_loss'].append(validation_loss / validation_length) # Average validation loss for the epoch
         history['validation_accuracy'].append(validation_accuracy / validation_length) # Validation accuracy for the epoch
 
+        # Step the scheduler, if specified.
+        if use_scheduler:
+            scheduler.step()
+            # Get the current learning rate from the scheduler.
+            current_lr = scheduler.get_last_lr()[0]
+        else:
+            # Get the current learning rate from the optimizer.
+            current_lr = optimizer.param_groups[0]['lr']
+        
+        history['learning_rate'].append(current_lr) # Learning rate for the epoch
+
         # Printing training and validation data.
         print(f"Train - Loss: {history['train_loss'][-1]:>4f}, Accuracy: {(100*history['train_accuracy'][-1]):>0.1f}%")
         print(f"Validation - Loss: {history['validation_loss'][-1]:>4f}, Accuracy: {(100*history['validation_accuracy'][-1]):>0.1f}%\n")
+        print(f"Learning Rate: {current_lr:>6f}\n")
 
         # Check for validation loss deterioration (=> early stop / until convergence).
         deteriorate = should_deteriorate(validation_loss, lowest_validation_loss, until_convergence)
@@ -98,7 +115,7 @@ def train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, 
 
     return history
 
-def run_and_save_results(model_to_train, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.001):
+def run_and_save_results(model_to_train, model_filename, train_dataloader, validation_dataloader, converge_mode=False, learning_rate=0.001, use_scheduler=False):
     # Get accelerator
     if hasattr(torch, 'accelerator') and torch.accelerator.is_available():
         device = torch.accelerator.current_accelerator().type
@@ -119,7 +136,7 @@ def run_and_save_results(model_to_train, model_filename, train_dataloader, valid
     # Run the training and validation loop
     print("Starting training and validation...")
     weight_filename = model_filename.replace(".json", ".pth")
-    history = train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=converge_mode)
+    history = train_and_validate(model, train_dataloader, validation_dataloader, loss_fn, optimizer, device, weight_filename, max_epochs=50, until_convergence=converge_mode, use_scheduler=use_scheduler)
 
     # Save the training history to a JSON file
     with open(model_filename, 'w') as f:
